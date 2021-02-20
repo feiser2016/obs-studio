@@ -51,8 +51,11 @@ static string GenerateSourceName(const char *base)
 		}
 
 		obs_source_t *source = obs_get_source_by_name(name.c_str());
+
 		if (!source)
 			return name;
+		else
+			obs_source_release(source);
 	}
 }
 
@@ -169,6 +172,12 @@ void OBSBasic::AddDropSource(const char *data, DropType image)
 
 void OBSBasic::dragEnterEvent(QDragEnterEvent *event)
 {
+	// refuse drops of our own widgets
+	if (event->source() != nullptr) {
+		event->setDropAction(Qt::IgnoreAction);
+		return;
+	}
+
 	event->acceptProposedAction();
 }
 

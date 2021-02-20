@@ -20,6 +20,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QWidget>
+#include <QWindow>
 #include <QThread>
 #include <obs.hpp>
 
@@ -31,6 +32,7 @@
 #define QT_TO_UTF8(str) str.toUtf8().constData()
 
 class QDataStream;
+class QComboBox;
 class QWidget;
 class QLayout;
 class QString;
@@ -55,7 +57,7 @@ public:
 
 void OBSErrorBox(QWidget *parent, const char *msg, ...);
 
-void QTToGSWindow(WId windowId, gs_window &gswindow);
+bool QTToGSWindow(QWindow *window, gs_window &gswindow);
 
 uint32_t TranslateQtKeyboardEventModifiers(Qt::KeyboardModifiers mods);
 
@@ -106,4 +108,14 @@ static inline Qt::ConnectionType WaitConnection()
 bool LineEditCanceled(QEvent *event);
 bool LineEditChanged(QEvent *event);
 
+void SetComboItemEnabled(QComboBox *c, int idx, bool enabled);
+
 void setThemeID(QWidget *widget, const QString &themeID);
+
+QString SelectDirectory(QWidget *parent, QString title, QString path);
+QString SaveFile(QWidget *parent, QString title, QString path,
+		 QString extensions);
+QString OpenFile(QWidget *parent, QString title, QString path,
+		 QString extensions);
+QStringList OpenFiles(QWidget *parent, QString title, QString path,
+		      QString extensions);
